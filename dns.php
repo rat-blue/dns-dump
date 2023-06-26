@@ -15,6 +15,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         fputcsv($file, array_merge(['Domain'], $dnsTypes));
 
         foreach ($domains as $domain) {
+
+            if(trim($domain) == '') { //Ignores blank lines
+                continue;
+            }
+            
             $allRecords = [];
             foreach ($dnsTypes as $type) {
                 $dnsRecords = dns_get_record($domain, constant("DNS_".$type));
